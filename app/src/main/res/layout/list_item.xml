@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:text="@string/the_streamliners"
-    android:padding="16dp"
-    android:textColor="@color/design_default_color_primary"
-    style="@style/TextAppearance.MaterialComponents.Headline5">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</TextView>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp" >
+
+        <TextView
+            android:id="@+id/text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:textColor="@color/design_default_color_primary"
+            style="@style/TextAppearance.MaterialComponents.Headline6"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>
