@@ -2,64 +2,75 @@ package com.example.helloworld;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.helloworld.databinding.ListItemBinding;
 
 import java.util.List;
 
-public class CoursesAdapter extends ArrayAdapter<String> {
+public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.ProductViewHolder> {
 
     //For the context
-    private final Context context;
+    private Context context;
 
     //For the list of courses data
-    private final List<String> courses;
+    private List<String> courses;
 
     /**
+     * Constructor
      * To initiate the object with
      * @param context context for inflating purpose
-     * @param resource list item resource
      * @param courses list of courses data
      */
-    public CoursesAdapter(@NonNull Context context, int resource, @NonNull List<String> courses) {
-        super(context, resource, courses);
+    public CoursesAdapter(Context context, List<String> courses) {
         this.context = context;
         this.courses = courses;
     }
 
     @NonNull
     @Override
-    //Return view after inflating & binding data
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    //Inflates layout & returns viewHolder for given type
+    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //Inflate layout
+        ListItemBinding binding = ListItemBinding.inflate(LayoutInflater.from(context), parent, false);
 
-        //Declare the binding object
-        ListItemBinding b;
-
-
-        //Check for the view availability for reuse
-
-        //Inflated view not available, so inflate.
-        if (convertView == null) {
-            b = ListItemBinding.inflate(LayoutInflater.from(context));
-            convertView = b.getRoot();
-        }
-
-        //Inflated view available, so reuse.
-        else {
-            b = ListItemBinding.bind(convertView);
-        }
-
-        //Bind the data
-        b.textView.setText(courses.get(position));
-
-        //return
-        return convertView;
+        //Create & return viewHolder
+        return new ProductViewHolder(binding);
     }
 
+    @Override
+    //Binds data of given position to the view in viewHolder
+    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+        holder.b.textView.setText(courses.get(position));
+
+        //use a class for complex layout data binding & event handling
+    }
+
+    @Override
+    //Returns the number of data items/size to display
+    public int getItemCount() {
+        //Return the length of the list
+        return courses.size();
+    }
+
+    /**
+     * ViewHolder
+     * Represents view holder for the recycler view
+     */
+    static class ProductViewHolder extends RecyclerView.ViewHolder{
+        //Declare view binding object
+        ListItemBinding b;
+
+        /**
+         * To give binding to the holder
+         * @param b binding of the view
+         */
+        public ProductViewHolder(ListItemBinding b) {
+            super(b.getRoot());
+            this.b = b;
+        }
+    }
 }
