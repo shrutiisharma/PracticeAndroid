@@ -9,15 +9,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.helloworld.databinding.ListItemBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.ProductViewHolder> {
 
     //For the context
-    private Context context;
+    private final Context context;
 
     //For the list of courses data
-    private List<String> courses;
+    private final List<String> courses;
+    private List<String> visibleCourses;
+
 
     /**
      * Constructor
@@ -28,7 +31,11 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.ProductV
     public CoursesAdapter(Context context, List<String> courses) {
         this.context = context;
         this.courses = courses;
+        this.visibleCourses = courses;
     }
+
+
+
 
     @NonNull
     @Override
@@ -44,7 +51,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.ProductV
     @Override
     //Binds data of given position to the view in viewHolder
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        holder.b.textView.setText(courses.get(position));
+        holder.b.textView.setText(visibleCourses.get(position));
 
         //use a class for complex layout data binding & event handling
     }
@@ -53,8 +60,40 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.ProductV
     //Returns the number of data items/size to display
     public int getItemCount() {
         //Return the length of the list
-        return courses.size();
+        return visibleCourses.size();
     }
+
+
+
+    /**
+     * To filter the list
+     * @param query for search action
+     */
+    public void filter(String query) {
+
+        //No query, show all items
+        if (query.trim().isEmpty()){
+            visibleCourses = courses;
+            notifyDataSetChanged();
+            return;
+        }
+
+        //filter & add to visibleCourses
+        List<String> temp = new ArrayList<>();
+        query = query.toLowerCase();
+
+        for (String course : courses) {
+            if (course.toLowerCase().contains(query))
+                temp.add(course);
+        }
+
+        visibleCourses = temp;
+
+        //Refresh list
+        notifyDataSetChanged();
+    }
+
+
 
     /**
      * ViewHolder
