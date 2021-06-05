@@ -11,10 +11,11 @@
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp" >
 
-        <TextView
-            android:id="@+id/text_view"
+        <CheckBox
+            android:id="@+id/checkbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:text="@string/the_streamliners"
             android:padding="16dp"
             android:textColor="@color/design_default_color_primary"

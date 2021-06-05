@@ -8,6 +8,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.helloworld.databinding.ActivityDemoBinding;
+import com.example.helloworld.models.Course;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +39,7 @@ public class DemoActivity extends AppCompatActivity {
     private void setUpRecyclerView() {
 
         //Data : List of Strings
-        List<String> courses = new ArrayList<>(Arrays.asList(
+        List<Course> courses = Course.listFromCoursesStrings(new ArrayList<>(Arrays.asList(
                 "BTech - Biochemical Engineering",
                 "BTech - Textile Engineering",
                 "BTech - Ceramic Engineering",
@@ -72,7 +73,7 @@ public class DemoActivity extends AppCompatActivity {
                 "LLM - International Law",
                 "LLM - Labour Law",
                 "Bachelor of Medicine and Bachelor of Surgery",
-                "Bachelor of Optometry"));
+                "Bachelor of Optometry")));
 
         adapter = new CoursesAdapter(this, courses);
 

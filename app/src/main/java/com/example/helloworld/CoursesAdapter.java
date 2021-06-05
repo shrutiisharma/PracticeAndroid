@@ -3,11 +3,13 @@ package com.example.helloworld;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.helloworld.databinding.ListItemBinding;
+import com.example.helloworld.models.Course;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +20,8 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.ProductV
     private final Context context;
 
     //For the list of courses data
-    private final List<String> courses;
-    private List<String> visibleCourses;
+    private final List<Course> courses;
+    private List<Course> visibleCourses;
 
 
     /**
@@ -28,7 +30,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.ProductV
      * @param context context for inflating purpose
      * @param courses list of courses data
      */
-    public CoursesAdapter(Context context, List<String> courses) {
+    public CoursesAdapter(Context context, List<Course> courses) {
         this.context = context;
         this.courses = courses;
         this.visibleCourses = courses;
@@ -51,9 +53,23 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.ProductV
     @Override
     //Binds data of given position to the view in viewHolder
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        holder.b.textView.setText(visibleCourses.get(position));
 
-        //use a class for complex layout data binding & event handling
+        Course course = visibleCourses.get(position);
+
+        //bind name
+        holder.b.checkbox.setText(course.name);
+
+
+        //handle check changes
+        holder.b.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                course.isChecked = isChecked;
+            }
+        });
+
+        //restore previous checked state
+        holder.b.checkbox.setChecked(course.isChecked);
     }
 
     @Override
@@ -79,11 +95,11 @@ public class CoursesAdapter extends RecyclerView.Adapter<CoursesAdapter.ProductV
         }
 
         //filter & add to visibleCourses
-        List<String> temp = new ArrayList<>();
+        List<Course> temp = new ArrayList<>();
         query = query.toLowerCase();
 
-        for (String course : courses) {
-            if (course.toLowerCase().contains(query))
+        for (Course course : courses) {
+            if (course.name.toLowerCase().contains(query))
                 temp.add(course);
         }
 
